@@ -1,5 +1,5 @@
 import * as Vue from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
-import GraffitiPlugin from '../graffiti-js/plugins/vue/plugin.js'
+import GraffitiPlugin from 'https://graffiti.garden/graffiti-js/plugins/vue/plugin.js'
 
 const app = {
   setup() {

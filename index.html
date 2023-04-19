@@ -28,7 +28,6 @@
         My Name Is: <name :actor="$gf.me" :editable="true"></name>
       </p>
 
-
       <p>
         Change chat format:
         <input type="radio" id="channel" :value="false" v-model="privateMessaging" />
@@ -96,7 +95,6 @@
               <!-- This is a unique identifier that can be used to "link" to messages -->
               ID: {{ message.id }}
             </li>
-
 
             <!-- Only add these controls if the message is ours -->
             <!-- You can't edit or delete other people's messages -->
