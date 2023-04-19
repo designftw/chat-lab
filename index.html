@@ -58,7 +58,7 @@
 
       <ul>
         <!-- List all the messages -->
-        <li v-for="message of messages">
+        <li v-for="message of messages" :key="message.id">
 
           <!-- Display and edit form if we're editing a message -->
           <form v-if="editID==message.id" @submit.prevent="saveEditMessage(message)">
