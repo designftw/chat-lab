@@ -1,7 +1,11 @@
 import * as Vue from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+import { mixin } from "https://mavue.mavo.io/mavue.js";
 import GraffitiPlugin from 'https://graffiti.garden/graffiti-js/plugins/vue/plugin.js'
 
 const app = {
+  // Import MaVue
+  mixins: [mixin],
+
   setup() {
     // Initialize the name of the channel we're chatting in
     const channel = Vue.ref('default')
