@@ -10,7 +10,7 @@ const app = {
     const privateMessaging = Vue.ref(false)
 
     // If we're private messaging use "me" as the channel,
-    // otherwise use the value
+    // otherwise use the channel value
     const $gf = Vue.inject('graffiti')
     const context = Vue.computed(()=> privateMessaging.value? [$gf.me] : [channel.value])
 
@@ -31,7 +31,7 @@ const app = {
 
   computed: {
     messages() {
-      const messages = this.messagesRaw
+      let messages = this.messagesRaw
         // Filter the "raw" messages for data
         // that is appropriate for our application
         // https://www.w3.org/TR/activitystreams-vocabulary/#dfn-note
@@ -44,24 +44,28 @@ const app = {
           m.content      &&
           // Is that property a string?
           typeof m.content=='string') 
-        // Sort the messages according with the
+
+      // Do some more filtering for private messaging
+      if (this.privateMessaging) {
+        messages = messages.filter(m=>
+          // Is the message private?
+          m.bto &&
+          // Is the message to exactly one person?
+          m.bto.length == 1 &&
+          (
+            // Is the message to the recipient?
+            m.bto[0] == this.recipient ||
+            // Or is the message from the recipient?
+            m.actor == this.recipient
+          ))
+      }
+
+      return messages
+        // Sort the messages with the
         // most recently created ones first
         .sort((m1, m2)=> new Date(m2.published) - new Date(m1.published))
         // Only show the 10 most recent ones
         .slice(0,10)
-
-      // Do some more filtering for private messaging
-      return !this.privateMessaging? messages: messages.filter(m=>
-        // Is the message private?
-        m.bto &&
-        // Is the message only to one person?
-        m.bto.length == 1 &&
-        (
-          // Is the message to the recipient?
-          m.bto[0] == this.recipient ||
-          // Or is the message from the recipient?
-          m.actor == this.recipient
-        ))
     },
   },
 
